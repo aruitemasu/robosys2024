@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xv
 
 ng () {
 	echo ${1}行目が違うよ
@@ -7,9 +7,18 @@ ng () {
 
 res=0
 
+### NORMAL INPUT ###
 out=$(seq 5 | ./plus)
 [ "${out}" = 15 ] || ng "$LINENO"
 
-[ "${res}" = 0 ] && echo OK
-exit $res
+### STRANGE INPUT ###
+out=$(echo あ | ./plus)
+[ "$?" = 1 ]     || ng "$LINENO"
+[ "${out}" = "" ] || ng "$LINEKO"
 
+out=$(echo | ./plus)
+[ "$?" = 1 ]    || ng "$LINEKO"
+[ "${out}" = "" ] || ng "$LINEKO"
+
+[ "$res" = 0 ] && echo OK
+exit $res
